@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Sidebar 02</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous">
+</script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    
+
+
+    <style>
+i{
+   float:left;
+}
+ /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+ 
+ #histo{
+     position:relative;
+     /* left:2.5%; */
+     /* left: 173px; */
+     left: 182px;
+ }
+ .active{
+     font-weight: bold;
+ }
+ 
+ #stacked{
+    white-space:nowrap;
+    font-weight:bolder;
+ }
+ .stack{
+   background: none;
+ }
+
+ .first-col{
+         position: sticky;
+         width: 50;
+         left: 0;
+         top: auto;
+         z-index:1;
+         background-color: white;
+     }
+     .second-col{
+         position: absolute;
+         width: 172!important;
+         left: 275;
+         top: auto;
+         z-index:1;
+     } 
+
+    .td_first{
+        height:6%;
+        position: sticky;
+         width: 50;
+         left: 0;
+         top: auto;
+         z-index:1;
+         background-color:white;
+    }
+
+     .th_first{
+        position: absolute;
+         width: 172!important;
+         left: 275;
+         z-index:1;
+     }
+     .last_row{
+        position:relative;
+    /* left:2.5%; */
+    left: 182px;
+     }
+
+
+
+ #header{
+    border: 0; 
+    outline: 1px solid;
+    border-spacing: 0;
+    background:lightgray;
+    width:180px;
+ }
+ #lastest_element{
+     
+     height:3%;
+     background: white;
+ }
+ #last_td{
+    border: 0; 
+    /* outline: 1px solid; */
+    border-spacing: 0;
+    background:#fafafa;
+    width:180px;
+    height:1%;
+    /* background:white;
+    height:3%; */
+ }
+ 
+ .column {
+   float: left;
+ }   
+ .right{
+    float:right;
+    width: 22%;
+    /* overflow:hidden;
+    padding-bottom: 535px; */
+ }
+ .left{
+   width: 12%;
+   overflow:hidden;
+   /* background: #866ec7; */
+   /* /* padding-bottom: 500px; */
+   padding-left:10px; 
+   /* border-right: black solid; */
+   
+ }
+ .middle {
+   width: 65%;
+   overflow:auto;
+ }
+ 
+ #test{ 
+     display: grid; 
+   grid-template-columns: 33% 67%; 
+ 
+ } 
+ 
+.graph_div{
+    display: grid; 
+   grid-template-columns: 20% 67%;
+}
+
+/* 
+#graph_div .left,
+#graph_div .right {
+    display: inline-block;
+}
+
+#container .left {
+    width: 20%;
+    float: left;
+}
+#container .right {
+    width: 80%;
+    float: right;
+} */
+
+ #rightdiv{
+   height:250px;
+   overflow:auto;
+ }
+ 
+ #main_div{
+ 
+    overflow-x: scroll;
+    overflow-x: scroll;
+    overflow-y:hidden;
+    /* margin-left: 17em; */
+ } 
+ div.tooltip {	
+    position: absolute;			
+    text-align: left;			
+    width:auto;					
+    height: auto;					
+    padding: 2px;				
+    font: 12px sans-serif;
+    font-weight: bold;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+ }
+ 
+ .line_center{
+    background-image:url("static/img/black.jpg");
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size: 5% 100%;  
+    position:relative;
+    /* left:2.5%; */
+    /* left: 173px; */
+    left: 182px;
+ }
+ 
+ td, th {
+  /*padding: 10px;*/
+  position: relative;
+  outline: 0;
+  font-size:smaller;
+ 
+ }
+ 
+ /* .line_center:hover::before { 
+    background-color: #eee;
+    content: '';  
+    height: 100%;
+    left: -5000px;
+    position: absolute;  
+    top: 0;
+    width: 10000px;   
+    z-index: -2;        
+}
+
+
+.line_center:hover::after { 
+    background-color: #ffa;
+    content: '';  
+    height: 10000px;    
+    left: 0;
+    position: absolute;  
+    top: -5000px;
+    width: 100%;
+    z-index: -1;        
+} */
+ 
+ /* #tr:hover, #td:hover, tr:hover {
+  background-color: #ffa !important;
+ }
+ 
+ #td:hover::after,
+ #td:not(:empty):hover::after { 
+   background-color: #ffa !important;
+    content: '\00a0';  
+    height: 10000px;    
+    left: 0;
+    position: absolute;  
+    top: -5000px;
+    width: 100%;
+    z-index: -1;  
+ }
+ 
+ #td:hover::after{
+  background-color: #ffa !important;
+ }
+  */
+
+
+ /* .tabular tbody #td:hover::before {
+    background-color: #CCE7E7;
+    content:'\00a0';
+    height: 100%;
+    left: -5000px;
+    position: absolute;
+    top: 0;
+    width: 10000px;
+    z-index: -1;
+}
+.tabular tbody #td:hover::after {
+    background-color: #CCE7E7;
+    content:'\00a0';
+    height: 10000px;
+    left: 0;
+    position: absolute;
+    top: -5000px;
+    width: 100%;
+    z-index: -1;
+} */
+ tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+ }
+ 
+    </style>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                </div>
+				<div class="p-4 pt-5">
+		  		<h4 style="color:white; font-weight:bolder;">ARMatrix</h4><br>
+                <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">DataSets</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <!-- <a href="\testing"> 
+                            <i class="material-icons">local_police</i> <span>Crime</span>
+                        </a>  -->
+                        <!-- <a href="\testing">Crime Dataset</a> -->
+                    </li>
+                    <li>
+                        <a href="\market"> 
+                            <i class="material-icons">local_grocery_store</i> <span>Market Basket</span>
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="\heart"> 
+                            <i class="material-icons">local_hospital</i> <span>Statlog Heart</span>
+                        </a> 
+                    </li>
+                    </ul>
+                </li>
+                
+                <li class="active">
+                    <a href="#inputs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Threshold Values</a>
+                    <ul class="collapse list-unstyled" id="inputs">
+                    <li>
+                        <form method = "post" action = "">
+                            <label for="thre_sup" data-placement="right" data-toggle="tooltip" title="Minimum Support= {{data.min_sup | safe}}">Minimum Support</label>
+                            <input type="text" id="thre_sup" name="thre_sup" placeholder="Enter between 0 and 1" class="form-control" style="font-size: 13px!important;">
+                            <label for="thre_conf" data-placement="right" data-toggle="tooltip" title="Minimum Support= {{data.min_conf | safe}}">Minimum Confidence</label>
+                            <input type="text" id="thre_conf" name="thre_conf" placeholder="Enter between 0 and 1" class="form-control" style="font-size: 13px!important;">
+                            <button class="btn btn-secondary btn-sm" type="submit" style=" position:relative; top:10px; left:20%">Submit</button>
+                        </form>
+                    </li>
+                    </ul>
+                </li>
+                
+                <li class="active">
+                    <a href="#placement" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Column Sorting</a>
+                    <ul class="collapse list-unstyled" id="placement">
+                    <li>
+                        <li class="active">
+                            <a href="#inter" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Interesting Measure</a>
+                            <ul class="collapse list-unstyled" id="inter">
+                                <li>
+                                    <select id="selectButton" name="inter1" class="form-control" style="font-size: 13px!important; width:fit-content;"></select>
+                                </li>
+                            </ul>
+                        </li>
+                    </li>
+                    <li>
+                        <a href="javascript:similar();">Similarity</a>
+                    </li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#color" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Color</a>
+                    <ul class="collapse list-unstyled" id="color">
+                    <li>
+                        <select id="selectButton1" name="inter2" class="form-control" style="font-size: 13px!important; width:fit-content;"></select>
+                    </li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#item_place" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Row Placement</a>
+                    <ul class="collapse list-unstyled" id="item_place">
+                    <li>
+                        <select id="selectButton2" name="items_list" class="form-control" style="font-size: 13px!important; width:180px;">
+                            <option hidden disabled selected value> --select an option-- </option>
+                            <option value="Antecedent Ascending">Antecedent Ascending</option>
+                            <option value="Consequent Ascending">Consequent Ascending</option>
+                            <option value="Antecedent Descending">Antecedent Descending</option>
+                            <option value="Consequent Descending">Consequent Descending</option>
+                         </select>
+                    </li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#history_data" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">History</a>
+                    <ul class="collapse list-unstyled" id="history_data">
+                    <li>
+                        <div id="history_display" style="display: block; border: 1px; max-height:300px; width:100%; overflow-x:hidden; overflow-y: auto;">
+                  
+                        </div>
+                        <button onclick= "retrieve()" type="button" class="btn btn-secondary" style="position: relative; top:5px; left:30px">Retrieve</button>
+                        <button onclick= "delete_item()" type="button" class="btn btn-secondary" style="position: relative; top:5px; left:30px">Delete</button> 
+                    </li>
+                    </ul>
+                </li>
+
+                <!-- <li>
+                    <a href="#">About</a>
+                </li> -->
+                </ul>
+    	    </nav>
+
+            <div id="content" class="p-4 p-md-5 pt-5">
+                <span class="material-icons" style="font-size: small;" data-placement="right" data-toggle="tooltip" title="Rows represent items and columns represents rules. &#10;Square = antecedent and circle = consequent">
+                    help
+                    </span>
+                <div id="main_div">
+                
+                </div>
+                <br>
+                <br>
+                <div id='total' style="height:500px;" class="graph_div">
+
+                    <!-- <div id="group" class="subdiv" style="opacity:0;">
+                        <h4>Graph Filters</h4>
+                         <input type="radio" name="filered_opt" class="grp" value="antecedent support" checked> antecedent support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="consequent support"> consequent support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="support"> support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="confidence"> confidence<br>
+                         <input type="radio" name="filered_opt" class="grp" value="lift"> lift<br>
+                         <input type="radio" name="filered_opt" class="grp" value="leverage">leverage<br>
+                         <input type="radio" name="filered_opt" class="grp" value="conviction">conviction
+                    </div> -->
+
+                    <div class="rightdiv" id="myDiv">
+                        
+                    </div>
+                    <!-- <div id="group" class="subdiv"> -->
+                        <!-- <h4>Graph Filters</h4>
+                         <input type="radio" name="filered_opt" class="grp" value="antecedent support" checked>antecedent support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="consequent support">consequent support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="support">support<br>
+                         <input type="radio" name="filered_opt" class="grp" value="confidence">confidence<br>
+                         <input type="radio" name="filered_opt" class="grp" value="lift">lift<br>
+                         <input type="radio" name="filered_opt" class="grp" value="leverage">leverage<br>
+                         <input type="radio" name="filered_opt" class="grp" value="conviction">conviction<br></div> -->
+                      <!-- </div> -->
+                    
+                    </div>
+                
+            </div>
+            <div style="float: right;width: 25%; padding-top: 20px;">
+                <h4>Legend:</h4>
+                <div id="legend">
+                </div>
+
+                
+                <h4>Selected Rule: <span class="material-icons" style="font-size: small;" data-toggle="tooltip" title="Selected Column will be displayed as textual format">
+                    help
+                    </span></h4>
+                <div id="rules_text">
+                 <label style="font-size: 12px; font-weight:bolder">
+                 </label>
+                 </div>
+                 <hr>
+
+                <div>
+                    <h4>
+                       <center>Filter Options<span class="material-icons" style="font-size: small;" data-toggle="tooltip" title="Select items from the checklist below by scrolling and also select the filter option from radio buttons">
+                        help
+                        </span>
+                        <!-- <h6>Scroll the items to view more.</h6>  -->
+                    </center>
+                    <h6> &nbsp;&nbsp;&nbsp; Scroll the items to view more.</h6> </h4>
+                      <div id="test" style="height:260px; display: grid; grid-template-columns: 40% 60%;">
+                       <div class= "subdiv">
+                       <form id="opti">
+                       <!-- <p> </p> -->
+                       <input type="radio" name="opt" class="trial" value="antecedent"> Antecedent<br>
+                       <input type="radio" name="opt" class="trial" value="consequent" > Consequent<br>
+                       <input type="radio" name="opt" class="trial" value="any"> Include Both<br>
+                       <input type="radio" name="opt" class="trial" value="exclude"> Exclude
+                       </form>
+                       </div>
+                       <div class="rightdiv" id="rightdiv" style=" height:250px;overflow:auto;"></div>
+                      </div>
+                      
+                       <input type = "button" id = "button" value = "Filter" class="btn btn-secondary" style="width:fit-content; height:fit-content; position:relative; left:20%;" data-toggle="tooltip" title="Returns matrix with selected filters"/>
+                       <button type="button" onclick= "excel()" class="btn btn-secondary" style="position:relative; left:20%;" data-toggle="tooltip" title="Saves the filtered data to csv">Save to Excel</button>
+                       <br>
+                        <br>
+                       <button type="button" onclick='location.href = window.location.pathname;' class="btn btn-secondary" style="position:relative; left:10%;" data-toggle="tooltip" title="Removes all the filters">Remove Filters</button>
+                      <!-- </div> 
+                      <hr>
+                      <div> -->
+                       <!-- <center> -->
+                           <button onclick="save()" class="btn btn-secondary" style="width: 100px; position:relative; left:10%;" data-toggle="tooltip" title="Saves the filters for later use">Save</button>
+                        <!-- </center> -->
+                      
+                      </div>
+                      
+            </div>
+        </div>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script>
+            
+            var graphData = {{ data.columns | safe }}
+            var row= {{data.row | safe}}
+            var inter= {{data.interesting_measures | safe}}
+            var da= {{ data.support | safe}}
+            var vav= {{ data.dat | safe}}
+            // var min_sup= {{data.min_sup | safe}}
+            // var min_conf= {{data.min_conf | safe}}
+            
+            if(graphData.length==0){
+            alert("No Associations can be formed.")
+            var site=window.location.href;
+            window.location=site;
+            }
+
+            var no_conv= inter.slice();
+            no_conv=no_conv.reverse().slice(1).reverse()
+        
+            d3.select("#selectButton")
+            .selectAll('myOptions')
+            .data(inter)
+            .enter()
+            .append('option')
+            .text(function (d) {return d})//{ if(d!="conviction"){return d;} }) // text showed in the menu
+            .attr("value", function (d) {return d})//{ if(d!="conviction"){return d; }}) // corresponding value returned by the button
+
+            d3.select("#selectButton1")
+            .selectAll('myOptions')
+            .data(no_conv)
+            .enter()
+            .append('option')
+            .text(function (d) { return d; }) // text showed in the menu
+            .attr("value", function (d) { return d; }) 
+
+            var right_values= row.slice();
+            right_values.sort();
+            d3.select("#rightdiv").selectAll("#div")
+            .data(right_values)
+            .enter()
+            .append("label")
+            .html(function(d) { return d+" "; })
+            .attr("for", function(d,i){return i;})
+            .append("input")
+            .attr("type", "checkbox")
+            .attr("class", "trial")
+            .attr("id", function(d,i) {return i;})
+            .attr("value", function(d){return d;});
+            $("#rightdiv>label").after("<br/>");
+
+            generate(row,graphData,da, vav);
+ 
+            var matrix, flag;
+            var temp, ant,cons;
+            var check_flag=true;
+            var new_graphData, new_da, new_vav, filters, new_item_row;
+            var color_temp;
+            function generate(row, graphData,da,vav){
+            
+            vav.forEach(function(object){
+                for(key in object) {
+                    if(object[key] == null)
+                        object[key] = 'Infinity';
+                }
+            });
+
+            $("#main_div").empty();
+            $("#legend").empty();
+            // document.getElementById("group").style.opacity=0;
+            // document.getElementById("myDiv").style.opacity = 0;
+            var dat_m=[];
+            var dat_y=[];
+
+            d3.select("#selectButton").on("change", function(d) {
+            var selectedOption = d3.select(this).property("value")
+            var l_to_r={};
+            for(var i=0; i<graphData.length; i++){
+            l_to_r[i]=(vav[i][selectedOption])
+            }
+            //    Descending Sorting
+            keysSorted = Object.keys(l_to_r).sort(function(a,b){return l_to_r[b]-l_to_r[a]})
+            toNumbers = arr => arr.map(Number);
+            keysSorted=toNumbers(keysSorted);
+            
+            var new_list=[],new_v=[];
+            for(var i=0; i<graphData.length; i++){
+            new_list[i]= graphData[keysSorted[i]];
+            new_v[i]= vav[keysSorted[i]]; 
+            }
+            graphData= new_list;
+            vav=new_v;
+            check_flag=false;
+            generate(row, graphData,da,vav);
+            })
+        
+            d3.select("#selectButton1").on("change", function(d) {
+                // recover the option that has been chosen
+                var selectedOption = d3.select(this).property("value")
+                // run the updateChart function with this selected option
+            
+            var color_t=[];
+                for(var i=0; i<da.length; i++){
+                color_t.push(vav[i][selectedOption])
+                }  
+                da=color_t;
+                color_temp=da;
+                check_flag=false;
+                generate(row, graphData,da,vav);
+            })
+
+            d3.select("#selectButton2").on("change", function(d) {
+            // recover the option that has been chosen
+            var selectedOption = d3.select(this).property("value")
+            var items_list=[];
+
+
+            if(selectedOption=="Antecedent Ascending"){
+            var keysSorted;
+            var items_order={};
+            $('tr[id^="tr"]').each(function(index,tr) {
+                items_list.push($(this).find("circle[r='10']").length)  
+                for(var i=0; i<items_list.length; i++){
+                items_order[i]=(items_list[i])
+                }})
+                keysSorted = Object.keys(items_order).sort(function(a,b){return items_order[a]-items_order[b]})
+                toNumbers = arr => arr.map(Number);
+                keysSorted=toNumbers(keysSorted);
+                }
+
+                else if(selectedOption=="Antecedent Descending"){
+                var keysSorted;
+                var items_order={};
+                $('tr[id^="tr"]').each(function(index,tr) {
+                items_list.push($(this).find("circle[r='10']").length)
+                for(var i=0; i<items_list.length; i++){
+                items_order[i]=(items_list[i])
+                }})
+                keysSorted = Object.keys(items_order).sort(function(a,b){return items_order[a]-items_order[b]})
+                toNumbers = arr => arr.map(Number);
+                keysSorted=toNumbers(keysSorted);
+                keysSorted.reverse();
+                }
+
+                else if(selectedOption=="Consequent Ascending"){
+                var keysSorted;
+                var items_order={};
+                $('tr[id^="tr"]').each(function(index,tr) {
+                items_list.push($(this).find("circle[r='8']").length)
+                for(var i=0; i<items_list.length; i++){
+                items_order[i]=(items_list[i])
+                }})
+                keysSorted = Object.keys(items_order).sort(function(a,b){return items_order[a]-items_order[b]})
+                toNumbers = arr => arr.map(Number);
+                keysSorted=toNumbers(keysSorted);
+                }
+
+                else if(selectedOption=="Consequent Descending"){
+                var keysSorted;
+                var items_order={};
+                $('tr[id^="tr"]').each(function(index,tr) {
+                items_list.push($(this).find("circle[r='8']").length)
+                for(var i=0; i<items_list.length; i++){
+                items_order[i]=(items_list[i])
+                }   
+            })
+            keysSorted = Object.keys(items_order).sort(function(a,b){return items_order[a]-items_order[b]})
+                toNumbers = arr => arr.map(Number);
+                keysSorted=toNumbers(keysSorted);
+                keysSorted.reverse();
+                }
+
+                new_item_row=[];
+                for(var i=0; i<row.length; i++){
+                new_item_row[i]= row[keysSorted[i]]; 
+                }
+                row= new_item_row;
+            generate(row, graphData,da,vav);
+            })
+
+            var numrows = row.length;
+            var numcols = graphData.length;
+
+            
+            matrix = new Array(numrows);
+            flag = new Array(numrows);
+            for (var i = 0; i < numrows; i++) {
+            matrix[i] = new Array(numcols);
+            flag[i] = new Array(numcols);
+            for (var j = 0; j < numcols; j++) {
+                for (var k=0; k<graphData[j][0].length;k++){
+                    if (row[i]==graphData[j][0][k]){   
+                        matrix[i][j] = row[i];
+                }
+            }
+            for (var k=0; k<graphData[j][1].length;k++){
+                    if (row[i]==graphData[j][1][k]){
+                        matrix[i][j] = row[i];
+                        flag[i][j]=1;
+            
+                }}
+            }}
+
+            var body= d3.select("#main_div");
+            // append a table element to the body
+            var table = body.append("table")
+                        .attr("id", "testing")
+                        .attr("height", "100px")
+                        .attr("width", "200px")
+                        .attr("class", "tabular")
+                        //.style("border", "2px solid black")
+                        .style("border-collapse", "collapse")
+                        .append("tbody");
+            
+            var tr = table.selectAll("tr")
+                    .data(matrix)
+                    .enter()
+                    .append("tr")
+                    .attr("id", "tr");
+            //       .style("border", "2px solid black");
+            
+            var div = d3.select("body").append("div")	
+                        .attr("class", "tooltip")				
+                        .style("opacity", 0);
+
+            var red = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#e5f5f9", "#2ca25f"])
+            var blue = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#e0ecf4", "#8856a7"])
+            var legend = d3.select("#legend")
+                .append("svg")
+                .attr("height", 100)
+                .attr("width",300)
+                .attr("style","float:right;")
+            
+            var width=800;var numStops = 10;
+            var countScale = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range([0, width])
+            countRange = countScale.domain();
+            countRange[2] = countRange[1] - countRange[0];
+            countPoint = [];
+            for(var i = 0; i < numStops; i++) {
+                countPoint.push(i * countRange[2]/(numStops-1) + countRange[0]);
+            }//for i
+            
+            //Create the gradient
+                legend.append("defs")
+                .append("linearGradient")
+                .attr("id", "legend-antecedent")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%")
+                .selectAll("stop") 
+                .data(d3.range(numStops))                
+                .enter().append("stop") 
+                .attr("offset", function(d,i) { 
+                return countScale( countPoint[i] )/width;
+                })   
+                .attr("stop-color", function(d,i) { 
+                return blue( countPoint[i] ); 
+                });
+                
+            
+            
+            
+            var legendWidth = Math.min(width*0.8, 400);
+            //Color Legend container
+            var legendsvg = legend.append("g")
+            //Draw the Rectangle
+            legendsvg.append("rect")
+                .attr("class", "legendRect")
+                .attr("x", 0)
+                .attr("y", 0)
+                //.attr("rx", hexRadius*1.25/2)
+                .attr("width", 200)
+                .attr("height", 20)
+                .style("fill", "url(#legend-antecedent)");
+                
+            //Append title
+            legendsvg.append("text")
+                .attr("class", "legendTitle")
+                .attr("x", 210)
+                .attr("y", 15)
+                //.style("text-anchor", "middle")
+                .text("Antecedent");
+            
+            
+            
+            //Second Legend
+            legend.append("defs")
+                .append("linearGradient")
+                .attr("id", "legend-consequent")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%")
+                .selectAll("stop") 
+                .data(d3.range(numStops))                
+                .enter().append("stop") 
+                .attr("offset", function(d,i) { 
+                return countScale( countPoint[i] )/width;
+                })   
+                .attr("stop-color", function(d,i) { 
+                return red( countPoint[i] ); 
+                });
+                
+            
+            
+            
+            var legendWidth = Math.min(width*0.8, 400);
+
+            legendsvg.append("rect")
+                .attr("class", "legendRect")
+                .attr("x", 0)
+                .attr("y", 50)
+                .attr("width", 200)
+                .attr("height", 20)
+                .style("fill", "url(#legend-consequent)");
+                
+            //Append title
+            legendsvg.append("text")
+                .attr("class", "legendTitle")
+                .attr("x", 210)
+                .attr("y", 65)
+                .text("Consequent");
+            
+            var xScale= d3.scale.linear().domain([d3.min(da),d3.max(da)]).range([0, 200]);
+            
+            //Define x-axis
+            var xAxis = d3.svg.axis()
+                .orient("bottom")
+                .ticks(3)
+                .scale(xScale)
+            
+            //Set up X axis
+            legendsvg.append("g")
+                    .attr("class", "axis")
+                    .attr("width", 220)
+                    .attr("height", 5)
+                    .append("g")
+                    .attr("id", "g-runoff")
+                    .attr("transform", "translate(0,20)")
+                    .style({ 'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.7px'})
+                    .call(xAxis)
+            
+            legendsvg.append("g")
+                    .attr("class", "axis")
+                    .attr("width", 220)
+                    .attr("height", 5)
+                    .append("g")
+                    .attr("id", "g-runoff")
+                    .attr("transform", "translate(0,70)")
+                    .style({ 'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.7px'})
+                    .call(xAxis)
+            
+            legendsvg.selectAll("g")
+                    .selectAll("text")
+                    .attr("style", "font-size:small; fill:black;");
+
+            
+            
+            var td = tr.selectAll("td")
+                    .data(function(d,i) {
+                    return d; })
+                    .enter()
+                    .append("td")
+                    .attr("id", "td")
+                    .attr("class","line_center")
+                    //.style("border", "1px solid black")
+                    .append("svg").attr("id","cell_svg").attr("height","16").attr("width","16")
+                    //.append("line").attr("x1","8").attr("y1","0").attr("x2","8").attr("y2","18").attr("stroke","black").attr("stroke-width","2")
+                    .append("circle").attr("cx","8").attr("cy","8").style("fill","none").style("stroke-width","2");
+            
+            var bac= tr.selectAll(".line_center").style("background-color", function(d,i,j){
+                if(j%2==0){
+                    return "#EEEEEE ";
+                console.log(d,i,j)
+                }
+            })
+                
+                // td.style("background", function(d,i,j){
+                            
+                //    return (d==null ) ? null : (flag[j][i]==1)? red(da[i]): blue(da[i]); }); 
+                
+                
+            
+                
+                
+                td.style("fill", function(d,i,j){
+                            
+                return (d==null ) ? "none" : (flag[j][i]==1)? red(da[i]): blue(da[i]); }); 
+                
+                
+                td.attr("r",function(d,i,j){
+                            return (d==null ) ? "0" : (flag[j][i]==1)? "8": "10"; });
+                d3.selectAll("#cell_svg").filter(function(d){
+                        return d3.select(this).select("circle").style("fill") ==="none"
+                }).remove();
+                ant=[];
+                cons=[];
+                $('tr[id^="tr"]').each(function(index,tr) {
+                    ant.push($(this).find("circle[r='10']").length)
+                    cons.push($(this).find("circle[r='8']").length)
+                })
+                
+                td.on("mouseover",function(d,i,j){
+                div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+                div.html("Antecedent Support: "+vav[i]["antecedent support"] + "<br>"+
+                        "Consequent Support: "+vav[i]["consequent support"] + "<br>"+
+                        "Support: "+ vav[i].support + "<br>"+
+                        "Confidence: "+ vav[i].confidence + "<br>"+
+                        "Lift: "+ vav[i].lift + "<br>"+
+                        "Leverage: "+ vav[i].leverage + "<br>"+
+                        "Conviction: "+ vav[i].conviction + "<br>"
+                        )	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+                })					
+                .on("mouseout", function(d) {		
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);	
+                })
+
+
+                td.on("click", function(d,i,j){
+                    d3.select("#rules_text").select("label").text(graphData[i][0]+" => "+graphData[i][1]);
+                })
+                
+                td.on("dblclick", function(d,i,j){
+                var table = document.getElementById('testing');
+                var tem=graphData[i][0].toString()+"=>"+graphData[i][1].toString();
+
+                    if(table.rows[row.length+1].cells[i+2].style.opacity==0){
+                    table.rows[row.length+1].cells[i+2].style.opacity=1;
+                    if (!dat_m.includes(tem)) {
+                        dat_m.push(tem);
+                        dat_y.push(vav[i]);
+                    }
+                    graph(dat_m,dat_y);
+                        
+                    }
+                    else{
+                    table.rows[row.length+1].cells[i+2].style.opacity=0;//.innerHTML="";
+                    index = dat_m.indexOf(tem)
+                    if (index > -1) { dat_m.splice(index, 1);dat_y.splice(index, 1); }
+                
+                    graph(dat_m, dat_y);
+                    }
+                })
+
+                tbl = document.getElementsByTagName("body")[0];
+                tr = tbl.getElementsByTagName("tr");
+                // for (i = 0; i < tr.length; i++) {
+                //     if(i%2==0){
+
+                      
+                //         // cells = tr[i].getElementsByTagName('td');
+
+                //         // d3.selectAll(tr[i]).selectAll(".line_center").style("background-color", "grey")
+                //     }
+                    
+                // }
+
+                for (i = 0; i < tr.length; i++) {
+                
+                var th = document.createElement('th');
+                th.appendChild(document.createTextNode(row[i]));
+                
+                //tr[i].appendChild(td);
+                tr[i].insertBefore(th, tr[i].childNodes[0]);
+                }
+                d3.selectAll("th").style("white-space","nowrap").attr("id","header").attr("class","stack second-col");
+                
+                for (i = 0; i < tr.length; i++) {
+ 
+                    var th = document.createElement('td');
+                    //th.appendChild(document.createTextNode(row[i]));
+                    th.setAttribute("id","stacked");
+                    th.setAttribute("class", "stack first-col");
+                    th.setAttribute("width","10");
+                    //tr[i].appendChild(td);
+                    tr[i].insertBefore(th, tr[i].childNodes[0]);
+                    }
+                    
+                    var test = document.getElementById("testing");
+                    var new_row = test.insertRow(-1);
+                    var test_td=new_row.insertCell(-1);
+                    
+                    test_td.innerHTML=" ";
+                    test_td.setAttribute("id","lastest_element");
+                    var value_th=new_row.insertCell(-1);
+                    // value_th.outerHTML="<th class='th_first' id='last_td' > </th>";
+                    value_th.innerHTML=" ";
+                    value_th.setAttribute("id","last_td");
+                    // value_th.setAttribute("id","header");
+                    value_th.setAttribute("class","th_first");
+                    // new_row.insertCell(-1).innerHTML="";
+                    // new_row.insertCell(-1).innerHTML="";
+                    for (i=2; i<vav.length+2; i++){
+                    var cell=new_row.insertCell(i);
+                    cell.innerHTML="&#10004";
+                    cell.setAttribute("class","last_row");
+                    cell.style.opacity=0;
+                }
+
+                var upper_row = test.insertRow(0);
+                var test_td=upper_row.insertCell(-1);
+                test_td.setAttribute("class","td_first");
+                test_td.innerHTML="Frequency of items <span class='material-icons' style='font-size: small;' data-placement='right' data-toggle='tooltip' title='Purple bar represents the item being an antecedent and Green bar represents the item being an consequent'>help</span>";
+                var value_th=upper_row.insertCell(-1);
+                value_th.outerHTML="<th class='th_first' id='header' style='height:6%;'><center>Conviction <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center></th>";
+                value_th.setAttribute("id","header");
+                value_th.setAttribute("class","th_first");
+                
+                for (i=2; i<vav.length+2; i++){
+                var cell=upper_row.insertCell(i);
+                cell.setAttribute("id", "histo");
+                }
+
+                
+                var x = d3.scale.linear()
+                                .range([0, 10])
+                                .domain([0, d3.max(ant)]);
+
+                var stacking=d3.selectAll("#stacked").append("svg").attr("width","72").attr("height","12");
+                stacking.append("rect").style("fill","#8856a7").attr("x",function(d,i){
+                return 70-(x(ant[i])*5)
+                }).attr("y","0").attr("height","6").attr("width",function(d,i){
+                    return x(ant[i])*5;
+                })
+                stacking.append("text").style("font-size","8px").attr("x",function(d,i){
+                    return 70-(x(ant[i])*5 +15);
+                }
+                ).attr("y","6").text(function(d,i){
+                    if(ant[i]!=0){
+                    return ant[i]}
+                    return
+                });
+                
+                var x = d3.scale.linear()
+                                .range([0, 10])
+                                .domain([0, d3.max(cons)]);
+
+                stacking.append("rect").style("fill","#2ca25f").attr("x",function(d,i){
+                    return 70-(x(cons[i])*5)
+                }
+                ).attr("y","6").attr("height","6").attr("width",function(d,i){
+                    return x(cons[i])*5;
+                })
+                stacking.append("text").style("font-size","8px").attr("x",function(d,i){
+                    return 70-(x(cons[i])*5 +15);
+                }).attr("y","12").text(function(d,i){
+                    if(cons[i]!=0){
+                    return cons[i]}
+                    return
+                });
+                
+                var inte=[];
+                var exp=[];
+
+                $.each(vav, function(index, element) {
+                inte.push(element.conviction);
+                //exp.push(1-Math.exp(-element.conviction))
+                if(element.conviction==Infinity){
+                    exp.push(0)
+                }
+                else{
+                    exp.push(element.conviction)
+                }
+                });
+
+                $.each(vav, function(index, element) {
+                inte.push(element.conviction);
+                //exp.push(1-Math.exp(-element.conviction))
+                if(element.conviction==Infinity){
+                    exp.push(0)
+                }
+                else{
+                    exp.push(element.conviction)
+                }
+                });
+
+                var x = d3.scale.linear()
+                            .range([0, 10])
+                            .domain([0, d3.max(exp)]);
+                
+                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","40");
+                histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
+                    return 40-(x(exp[i]))*2;
+                }
+                ).attr("width","17").attr("height",function(d,i){
+                    return x(exp[i])*2;
+                })
+                histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","9px").attr("x","0").attr("y",function(d,i){
+                    if(inte[i]=="Infinity"){
+                        return "30"
+                    }else{
+                    return 40-(x(exp[i])*2+1);}
+                }).text(function(d,i){
+                    if(inte[i]!=0){
+                    if(inte[i]=="Infinity"){
+                        return '∞'
+                    }
+                    else{
+                    return inte[i].toFixed(2);}}
+                    return
+                }).style("font-size", function(d,i){
+                    if(inte[i]=="Infinity"){
+                        return "15px"
+                    }else{
+                        return "6.8px"
+                    }}).attr("x", function(d,i){
+                    if(inte[i]!=0){
+                    if(inte[i]=="Infinity"){
+                        return "4"
+                    } }})
+            }
+
+            function csv(result){
+                var csv_name = prompt('Name of the csv?');
+                $.ajax({type: 'POST',
+                                        url: '/csv_save',
+                                        contentType: "application/json",
+                                        dataType: 'json',
+                                        data: JSON.stringify({"data": result,"name":csv_name}),
+                                        success: function(callback) {
+                                            if(callback==false){
+                                                alert("Cannot save as csv.")
+                                            }
+                                        }
+                                    });
+                    // event.preventDefault();
+                }
+
+            function excel(){
+                    if(new_vav==undefined){
+                    var result = vav.map(function(el,i) {
+                        var o = Object.assign({}, el);
+                        o.antecedents = graphData[i][0];
+                        o.consequents = graphData[i][1];
+                return o;
+                })
+
+                csv(result);
+                }
+                else{
+                var result = new_vav.map(function(el,i) {
+                    var o = Object.assign({}, el);
+                    o.antecedents = new_graphData[i][0];
+                    o.consequents = new_graphData[i][1];
+                    return o;
+                    })
+                    csv(result);
+                }}
+
+                // d3.select("#rightdiv").selectAll("#div")
+                // .data(row)
+                // .enter()
+                // .append("label")
+                // .html(function(d) { return d+" "; })
+                // .attr("for", function(d,i){return i;})
+                // .append("input")
+                // .attr("type", "checkbox")
+                // .attr("class", "trial")
+                // .attr("id", function(d,i) {return i;})
+                // .attr("value", function(d){return d;});
+                
+                // $("#rightdiv>label").after("<br />");
+
+                $('#button').on('click', function () {
+                var tmp = [];
+                filters=[];
+                    $("input.trial").each(function() {
+                        if ($(this).is(':checked')) {
+                        var checked = ($(this).val());
+                        tmp.push(checked);
+                        filters.push(checked);
+                        }
+                    });
+                
+                opt= tmp[0];
+                tmp.shift();
+                new_graphData=[];
+                new_da=[];
+                new_vav=[];
+                
+                for (var i=0; i<graphData.length;i++){
+                    if(opt=="antecedent"){if(tmp.some(r=> graphData[i][0].includes(r))){new_graphData.push(graphData[i]); new_da.push(da[i]); new_vav.push(vav[i]) }}
+                    else if(opt=="consequent"){if(tmp.some(r=> graphData[i][1].includes(r))){new_graphData.push(graphData[i]); new_da.push(da[i]); new_vav.push(vav[i])}}
+                    else if(opt=="any"){if(tmp.some(r=> graphData[i][0].includes(r)) || tmp.some(r=> graphData[i][1].includes(r))){new_graphData.push(graphData[i]); new_da.push(da[i]); new_vav.push(vav[i])}}
+                    else if(opt=="exclude"){if(tmp.some(r=> graphData[i][0].includes(r)) || tmp.some(r=> graphData[i][1].includes(r))){}else{new_graphData.push(graphData[i]); new_da.push(da[i]); new_vav.push(vav[i])}}
+                }
+
+                
+                check_flag=false;
+
+                if(new_graphData.length==0){$("#main_div").empty();alert("Cannot be filtered.")}
+                else{
+                
+                    function flatDeep(arr, d = 1) {
+                    return d > 0 ? arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), [])
+                                : arr.slice();
+                };
+                function onlyUnique(value, index, self) {
+                return self.indexOf(value) === index;
+                }
+                
+
+                temp= flatDeep(new_graphData, Infinity).filter(onlyUnique);
+                if (new_item_row==undefined){
+                    new_item_row=temp;
+                }
+
+                document.getElementById("myDiv").style.opacity = 0;
+                generate(temp, new_graphData, new_da, new_vav);
+                
+                }
+                
+                });
+                
+                var ls=[];
+                function graph(tx, ty){
+                // console.log(tx, ty)
+                
+                    if(tx.length==0){document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML=''}
+                    else{
+                    // document.getElementById("group").style.opacity=1;
+                    document.getElementById("myDiv").style.opacity = 1;
+                //     ls= $('.grp:checked').map(function(){return this.value}).get()
+                //     $(document).off('change','.grp').on('change', '.grp', function() {
+                //     graph(tx,ty)
+                // });
+                ls=Object.keys(ty[0])
+                var data_for_graph=[];
+                for (var i=0; i<ls.length; i++){
+                var dy=[]; 
+                for(var j=0; j<ty.length; j++){dy.push(ty[j][ls[i]])}
+                // var normal = d3.scale.linear()
+                //                 .range([0, 1])
+                //                 .domain([d3.min(dy), d3.max(dy)]);
+                // console.log(normal)
+                // var x_data= [];
+                
+                // for(var j=0; j<dy.length; j++){
+                //     x_data.push(normal(dy[j]))
+                // }
+                // console.log(x_data)
+                // console.log(d3.max(dy), d3.min(dy))
+
+                var dic={
+                    x:tx,
+                    y:dy,
+                    text:dy,
+                    name:ls[i],
+                    type: 'bar',
+                    hovertemplate: "%{text}"
+                };
+                data_for_graph.push(dic);
+                }
+
+                var layout = {barmode: 'group', font: {
+                size: 15}, width: 1500, xaxis:{automargin:true}};
+                
+
+                width_to_break = 20;
+                wrap = function(elements) {
+                    for (element of elements) {
+                        element.x = element.x.map(text => {
+                            let rxp = new RegExp(".{1," + width_to_break + "}", "g");
+                            return text.match(rxp).join("-<br>");
+                        });
+                    }
+                    return elements;
+                };
+                for (element of data_for_graph){
+                    function normalize(min, max) {
+                        const variation = (3 - 1) / (max - min);
+                        // var delta = max - min;
+                        return function (val) {
+                            if(min==max){
+                                return 2
+                            }
+                            value = (1 + ((val - min) * variation)).toFixed(3)
+                            return value
+                        };
+                    }
+                    function no(){
+                        return function (val){
+                            return val+1
+                        }
+                    }
+                    if(element.y.length!=1){
+                   element.y=element.y.map(normalize(d3.min(element.y), d3.max(element.y)))}
+                   else{
+                    element.y=element.y.map(no())
+                   }
+
+                }
+                console.log(data_for_graph)
+                var data_1 = wrap(data_for_graph);
+                Plotly.newPlot('myDiv', data_1, layout);}}
+                //Plotly.newPlot('myDiv', data_for_graph, layout);}}
+                    
+                    // var data_for_graph=[];
+                    // var dy=[]; 
+                    // for (var i=0; i<ty.length; i++){
+                    // dy.push(ty[i][ls])}
+                    // }
+                    // var dic={
+                    //     x:tx,
+                    //     y:dy,
+                    //     name:ls[i],
+                    //     type: 'bar',
+                    //     marker: {
+                    //         color: 'rgb(142,124,195)'
+                    //     }
+                    // };
+                    // data_for_graph.push(dic);
+                    
+                    // var layout = {barmode: 'group', font: {
+                    // size: 10}, xaxis:{automargin:true}};
+                    
+                    // Plotly.newPlot('myDiv', data_for_graph, layout);}
+                
+                    
+                    var myStorage = window.localStorage;
+                    var his=[];   
+                    var lin="History"+window.location.pathname;
+                   
+                    function save() {
+                        var aswer = prompt('Name to save as?');
+                        if(aswer==null){}
+                        else{
+                        if(check_flag==false){
+                        if(color_temp==undefined){
+                            color_temp=new_da
+                        }
+                        var headerArray = [];
+                        $('.second-col').each(function(){
+                            headerArray.push($(this).text());
+                        });
+                        // console.log(filters)
+                        var data={"name":aswer,"lef_to_rig": $("#selectButton :selected").val(), "color": $("#selectButton1 :selected").val(), "lis":headerArray, "new_graphData":new_graphData, "new_da":color_temp, "new_vav": new_vav, "graphData": graphData, "filters": filters, "da": da, "vav":vav};
+                        if (lin in localStorage) {
+                            var history= localStorage.getItem(lin);
+                            users = JSON.parse(localStorage.getItem(lin) || "[]");
+                            if(!users.some(user => user.name === aswer)){
+                                users.push(data);
+                                localStorage.setItem(lin, JSON.stringify(users));   
+                                update();
+                            } else{   
+                                alert("Please Enter Unique Name to save.")
+                                save()
+                            }        
+                        } else {
+                            his.push(data)
+                            localStorage.setItem(lin, JSON.stringify(his));
+                            update();
+                        }
+
+                    }
+       
+                    else{
+                        if(color_temp==undefined){
+                            color_temp=da
+                        }
+                        // console.log(filters)
+                        var headerArray = [];
+                        $('.second-col').each(function(){
+                            headerArray.push($(this).text());
+                        });
+                        // if(new_item_row==undefined){
+                        // var data={"name":aswer,"lef_to_rig": $("#selectButton :selected").val(), "color": $("#selectButton1 :selected").val(),"item_place": $("#selectButton2 :selected").val(),"lis":headerArray, "new_graphData":graphData, "new_da":color_temp, "new_vav": vav, "graphData": graphData, "filters": filters, "da": da, "vav":vav};}
+                        // else{
+                            var data={"name":aswer,"lef_to_rig": $("#selectButton :selected").val(), "color": $("#selectButton1 :selected").val(),"item_place": $("#selectButton2 :selected").val(),"lis":headerArray, "new_graphData":graphData, "new_da":color_temp, "new_vav": vav, "graphData": graphData, "filters": filters, "da": da, "vav":vav};
+                        
+                        if (lin in localStorage) {
+                            var history= localStorage.getItem(lin);
+                            users = JSON.parse(localStorage.getItem(lin) || "[]");
+                            if(!users.some(user => user.name === aswer)){
+                            users.push(data);
+                            localStorage.setItem(lin, JSON.stringify(users));   
+                            update();
+                            } else{   
+                            alert("Please Enter Unique Name to save.")
+                            save()
+                            }        
+                        } else {
+                            his.push(data)
+                            localStorage.setItem(lin, JSON.stringify(his));
+                            update();
+                        }
+                    }
+                }}
+                $(document).ready(function(){
+                    $('[data-toggle="tooltip"]').tooltip();   
+                    });
+                    
+
+                function similar() {
+                    if(check_flag==false){
+                        if(color_temp==undefined){
+                        color_temp=new_da
+                    } 
+                    var headerArray = [];
+                    $('.second-col').each(function(){
+                        headerArray.push($(this).text());
+                    });
+                    // console.log(headerArray);
+
+                    $.ajax({type: 'POST',
+                                            url: '/similarity',
+                                            contentType: "application/json",
+                                            dataType: 'json',
+                                            data: JSON.stringify({"new_graphData":new_graphData, "new_da":new_da, "new_vav": new_vav}),
+                                            success: function(callback) {
+                                            new_graphData=callback["result"]["data"]
+                                            new_da=callback["result"]["one_measure"]
+                                            new_vav=callback["result"]["measures"]
+                                            // console.log(new_graphData,new_da,new_vav)
+                                            generate(headerArray, new_graphData, new_da, new_vav);
+                                            }
+                                        });
+                        // event.preventDefault();
+                        }
+                        
+                    else{
+                        if(color_temp==undefined){
+                        color_temp=da
+                    }
+                    var headerArray = [];
+                    $('.second-col').each(function(){
+                        headerArray.push($(this).text());
+                    });
+                    // console.log(headerArray);
+                        $.ajax({type: 'POST',
+                                            url: '/similarity',
+                                            contentType: "application/json",
+                                            dataType: 'json',
+                                            data: JSON.stringify({"new_graphData":graphData, "new_da":color_temp, "new_vav": vav}),
+                                            success: function(callback) {
+                                            graphData=callback["result"]["data"]
+                                            da=callback["result"]["one_measure"]
+                                            vav=callback["result"]["measures"]
+                                            // console.log(graphData,da,vav)
+                                            document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML='';
+                                            generate(headerArray, graphData, da, vav);
+                                            }
+                                        });
+                        // event.preventDefault();
+                        };     setTimeout(function() { update();}, 2000);}
+                
+                        function update(){
+                            $("#history_display").find("a").remove();
+                            users = JSON.parse(localStorage.getItem(lin) || "[]");
+                            var array_list=[];
+                            users.every(user => array_list.push(user.name))
+                            // console.log(array_list)
+                            d3.select("#history_display")
+                            .selectAll("a")
+                            .data(array_list)
+                            .enter()
+                            .append("a")
+                            .attr("type","button")
+                            .attr("class", "his")
+                            .attr("style", "border-bottom: 1px solid #ccc!important; vertical-align: middle; background-color: #866ec7!important; overflow: hidden; cursor: default; padding: 8px 16px; display: block; width: 100%;")
+                            .attr("href", function(e){})
+                            .html(function(e){return e})
+                        }
+
+                        var t;
+                        $("#history_display").click(function(event) {
+                        t=$(event.target).text();
+                        $('.his').css("font-weight","");
+                        // removeClass("history_data_value");
+                        $(event.target).css("font-weight","bolder");
+                        // .addClass("history_data_value");
+                        // console.log(t)
+                        });
+                       
+                        function retrieve(){
+                            //  var link= '/retrieve/'+t;
+                            values = JSON.parse(localStorage.getItem(lin) || "[]");
+                            data=values.find(x => x.name === t)
+                            graphData=data["graphData"]
+                            new_graphData= data["new_graphData"]
+                            new_da= data["new_da"]
+                            da= data["da"]
+                            new_vav= data["new_vav"]
+                            vav= data["vav"]
+                            temp= data["lis"]
+                            if(data["filters"]!= null){
+                            $('input[name="opt"][value="' + data["filters"][0] + '"]').attr('checked', 'checked');}
+                            $('#rightdiv').find(':checkbox').each(function () {
+                                    $(this).prop("checked", ($.inArray($(this).val(), data["filters"]) != -1));
+                                });
+                                
+                            $('#selectButton1 [value="'+ data["color"]+'"]').prop('selected', true);
+                            $('#selectButton [value="'+ data["lef_to_rig"]+'"]').prop('selected', true);
+                            $('#selectButton2 [value="'+ data["item_place"]+'"]').prop('selected', true);
+                            
+                            $("#thre_sup").val(data["thre_sup"]);
+                            $("#thre_conf").val(data["thre_conf"]);
+                            document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML='';
+                            check_flag=false;
+                            // console.log(temp)
+                            generate(temp, new_graphData, new_da, new_vav);
+                                }
+                                function delete_item(){
+                                var link= '/delete/'+t;
+                                values = JSON.parse(localStorage.getItem(lin) || "[]");
+                                var filtered = values.filter(function(el) { return el.name != t; }); 
+                                localStorage.setItem(lin, JSON.stringify(filtered));
+                                update();
+                                }
+                            
+                update();
+
+        </script>
+
+    <!-- <script src="../static/js/jquery.min.js"></script> -->
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+  </body>
+</html>
