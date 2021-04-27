@@ -3,6 +3,7 @@ Implementation of a Visual Analytics System, ARMatrix as part of my Thesis work 
 
 ## Code to run
 
-pip install -r requirements.txt \\
+pip install -r requirements.txt 
+
 python test1.py
 
