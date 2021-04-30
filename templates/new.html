@@ -374,6 +374,15 @@ i{
                 </li>
 
                 <li class="active">
+                    <a href="#histogram_top" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Histogram</a>
+                    <ul class="collapse list-unstyled" id="histogram_top">
+                    <li>
+                        <select id="selectButton2" name="inter3" class="form-control" style="font-size: 13px!important; width:fit-content;"></select>
+                    </li>
+                    </ul>
+                </li>
+
+                <li class="active">
                     <a href="#item_place" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Row Placement</a>
                     <ul class="collapse list-unstyled" id="item_place">
                     <li>
@@ -529,6 +538,14 @@ i{
             d3.select("#selectButton1")
             .selectAll('myOptions')
             .data(no_conv)
+            .enter()
+            .append('option')
+            .text(function (d) { return d; }) // text showed in the menu
+            .attr("value", function (d) { return d; }) 
+
+            d3.select("#selectButton2")
+            .selectAll('myOptions')
+            .data(inter)
             .enter()
             .append('option')
             .text(function (d) { return d; }) // text showed in the menu
@@ -1005,13 +1022,14 @@ i{
                 test_td.setAttribute("class","td_first");
                 test_td.innerHTML="Frequency of items <span class='material-icons' style='font-size: small;' data-placement='right' data-toggle='tooltip' title='Purple bar represents the item being an antecedent and Green bar represents the item being an consequent'>help</span>";
                 var value_th=upper_row.insertCell(-1);
-                value_th.outerHTML="<th class='th_first' id='header' style='height:6%;'><center>Conviction <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center></th>";
+                value_th.outerHTML="<th class='th_first' id='header' style='height:6%;'><center>lift <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center></th>";
                 value_th.setAttribute("id","header");
                 value_th.setAttribute("class","th_first");
                 
                 for (i=2; i<vav.length+2; i++){
                 var cell=upper_row.insertCell(i);
                 cell.setAttribute("id", "histo");
+                cell.setAttribute("class", "histo_top")
                 }
 
                 
@@ -1054,26 +1072,31 @@ i{
                 
                 var inte=[];
                 var exp=[];
-
+                
                 $.each(vav, function(index, element) {
-                inte.push(element.conviction);
+                inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                // inte.push(element.lift);
                 //exp.push(1-Math.exp(-element.conviction))
-                if(element.conviction==Infinity){
+                if(element.lift==Infinity){
                     exp.push(0)
                 }
                 else{
-                    exp.push(element.conviction)
+                    // console.log(element)
+                    // console.log((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
                 }
                 });
 
                 $.each(vav, function(index, element) {
-                inte.push(element.conviction);
+                // inte.push(element.lift);
+                inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
                 //exp.push(1-Math.exp(-element.conviction))
-                if(element.conviction==Infinity){
+                if(element.lift==Infinity){
                     exp.push(0)
                 }
                 else{
-                    exp.push(element.conviction)
+                    exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    // exp.push(element.lift)
                 }
                 });
 
@@ -1083,16 +1106,16 @@ i{
                 
                 var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","40");
                 histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
-                    return 40-(x(exp[i]))*2;
+                    return 28-(x(exp[i]))*2;
                 }
                 ).attr("width","17").attr("height",function(d,i){
-                    return x(exp[i])*2;
+                    return 30+x(exp[i])*2;
                 })
-                histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","9px").attr("x","0").attr("y",function(d,i){
+                histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","10px").attr("x","0").attr("y",function(d,i){
                     if(inte[i]=="Infinity"){
                         return "30"
                     }else{
-                    return 40-(x(exp[i])*2+1);}
+                    return 28-(x(exp[i])*2+1);}
                 }).text(function(d,i){
                     if(inte[i]!=0){
                     if(inte[i]=="Infinity"){
@@ -1112,6 +1135,113 @@ i{
                         return "4"
                     } }})
             }
+
+
+            d3.select("#selectButton2").on("change", function(d) {
+                var selected_value=d3.select(this).property("value")
+                $(".histo_top").empty();
+
+                var inte=[];
+                var exp=[];
+                if(selected_value=="lift" || selected_value=="conviction"){
+                $.each(vav, function(index, element) {
+                inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                // inte.push(element.lift);
+                //exp.push(1-Math.exp(-element.conviction))
+                if(element[selected_value]==Infinity){
+                    exp.push(0)
+                }
+                else{
+                    // console.log(element)
+                    // console.log((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                }
+                });
+
+                $.each(vav, function(index, element) {
+                // inte.push(element.lift);
+                inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
+                //exp.push(1-Math.exp(-element.conviction))
+                if(element[selected_value]==Infinity){
+                    exp.push(0)
+                }
+                else{
+                    exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    // exp.push(element.lift)
+                }
+                });}
+                else{
+                    
+                $.each(vav, function(index, element) {
+                // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                inte.push(element[selected_value]);
+                //exp.push(1-Math.exp(-element.conviction))
+                // if(element.lift==Infinity){
+                //     exp.push(0)
+                // }
+                // else{
+                    // console.log(element)
+                    // console.log((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    // exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    exp.push(element[selected_value])
+                // }
+                });
+
+                $.each(vav, function(index, element) {
+                inte.push(element[selected_value]);
+                // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
+                //exp.push(1-Math.exp(-element.conviction))
+                // if(element.lift==Infinity){
+                //     exp.push(0)
+                // }
+                // else{
+                    // exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    exp.push(element[selected_value])
+                // }
+                });
+
+                }
+
+                var x = d3.scale.linear()
+                            .range([0, 10])
+                            .domain([0, d3.max(exp)]);
+                
+                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","40");
+                histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
+                    return 28-(x(exp[i]))*2;
+                }
+                ).attr("width","17").attr("height",function(d,i){
+                    return 30+x(exp[i])*2;
+                })
+                histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","10px").attr("x","0").attr("y",function(d,i){
+                    if(inte[i]=="Infinity"){
+                        return "30"
+                    }else{
+                    return 28-(x(exp[i])*2+1);}
+                }).text(function(d,i){
+                    if(inte[i]!=0){
+                    if(inte[i]=="Infinity"){
+                        return '∞'
+                    }
+                    else{
+                    return inte[i].toFixed(2);}}
+                    return
+                }).style("font-size", function(d,i){
+                    if(inte[i]=="Infinity"){
+                        return "15px"
+                    }else{
+                        return "6.8px"
+                    }}).attr("x", function(d,i){
+                    if(inte[i]!=0){
+                    if(inte[i]=="Infinity"){
+                        return "4"
+                    } }})
+                    document.getElementById("header").innerHTML = "<center>"+selected_value+"<span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>";
+                    // document.getElementsByClassName("th_first").innerHTML="<center> <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>";
+                    // <center>LIFT <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>
+
+                });
+
 
             function csv(result){
                 var csv_name = prompt('Name of the csv?');
