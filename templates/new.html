@@ -328,7 +328,7 @@ i{
                         </a> 
                     </li>
                     </ul>
-                </li>
+                </li> 
                 
                 <li class="active">
                     <a href="#inputs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Threshold Values</a>
@@ -377,13 +377,13 @@ i{
                     <a href="#histogram_top" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Histogram</a>
                     <ul class="collapse list-unstyled" id="histogram_top">
                     <li>
-                        <select id="selectButton2" name="inter3" class="form-control" style="font-size: 13px!important; width:fit-content;"></select>
+                        <select id="selectButton3" name="inter3" class="form-control" style="font-size: 13px!important; width:fit-content;"></select>
                     </li>
                     </ul>
                 </li>
 
                 <li class="active">
-                    <a href="#item_place" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Row Placement</a>
+                    <a href="#item_place" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Row Sorting</a>
                     <ul class="collapse list-unstyled" id="item_place">
                     <li>
                         <select id="selectButton2" name="items_list" class="form-control" style="font-size: 13px!important; width:180px;">
@@ -525,7 +525,8 @@ i{
             }
 
             var no_conv= inter.slice();
-            no_conv=no_conv.reverse().slice(1).reverse()
+            no_conv.push('None')
+            // no_conv=no_conv.reverse().slice(1).reverse()
         
             d3.select("#selectButton")
             .selectAll('myOptions')
@@ -543,7 +544,7 @@ i{
             .text(function (d) { return d; }) // text showed in the menu
             .attr("value", function (d) { return d; }) 
 
-            d3.select("#selectButton2")
+            d3.select("#selectButton3")
             .selectAll('myOptions')
             .data(inter)
             .enter()
@@ -615,15 +616,29 @@ i{
                 // recover the option that has been chosen
                 var selectedOption = d3.select(this).property("value")
                 // run the updateChart function with this selected option
-            
+            if(selectedOption=='None'){
+                var color_t=[];
+                for(var i=0; i<da.length; i++){
+                    // console.log(Math.max.apply(Math, vav.map(function(o) { return o[selectedOption]; })))
+                color_t.push(1)
+                }   
+                da=color_t;
+                color_temp=da;
+                check_flag=false;
+                generate(row, graphData,da,vav);
+            }
+            else{
+
             var color_t=[];
                 for(var i=0; i<da.length; i++){
-                color_t.push(vav[i][selectedOption])
+                    // console.log(Math.max.apply(Math, vav.map(function(o) { return o[selectedOption]; })))
+                color_t.push(vav[i][selectedOption]/Math.max.apply(Math, vav.map(function(o) { return o[selectedOption]; })))
                 }  
                 da=color_t;
                 color_temp=da;
                 check_flag=false;
                 generate(row, graphData,da,vav);
+            }
             })
 
             d3.select("#selectButton2").on("change", function(d) {
@@ -739,9 +754,14 @@ i{
             var div = d3.select("body").append("div")	
                         .attr("class", "tooltip")				
                         .style("opacity", 0);
-
+            if(d3.min(da)==1 && d3.max(da)==1){
+            var red = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#2ca25f", "#2ca25f"])
+            var blue = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#8856a7", "#8856a7"])    
+            }
+            else{
             var red = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#e5f5f9", "#2ca25f"])
             var blue = d3.scale.linear().domain([d3.min(da),d3.max(da)]).range(["#e0ecf4", "#8856a7"])
+            }
             var legend = d3.select("#legend")
                 .append("svg")
                 .attr("height", 100)
@@ -885,7 +905,7 @@ i{
             var bac= tr.selectAll(".line_center").style("background-color", function(d,i,j){
                 if(j%2==0){
                     return "#EEEEEE ";
-                console.log(d,i,j)
+                // console.log(d,i,j)
                 }
             })
                 
@@ -920,9 +940,9 @@ i{
                 .style("opacity", .9);		
                 div.html("Antecedent Support: "+vav[i]["antecedent support"] + "<br>"+
                         "Consequent Support: "+vav[i]["consequent support"] + "<br>"+
-                        "Support: "+ vav[i].support + "<br>"+
-                        "Confidence: "+ vav[i].confidence + "<br>"+
-                        "Lift: "+ vav[i].lift + "<br>"+
+                        "Support: "+ vav[i]["support"] + "<br>"+
+                        "Confidence: "+ vav[i]["confidence"] + "<br>"+
+                        "Lift: "+ vav[i]["lift"] + "<br>"+
                         "Leverage: "+ vav[i].leverage + "<br>"+
                         "Conviction: "+ vav[i].conviction + "<br>"
                         )	
@@ -975,6 +995,8 @@ i{
                     
                 // }
 
+                
+
                 for (i = 0; i < tr.length; i++) {
                 
                 var th = document.createElement('th');
@@ -1022,7 +1044,7 @@ i{
                 test_td.setAttribute("class","td_first");
                 test_td.innerHTML="Frequency of items <span class='material-icons' style='font-size: small;' data-placement='right' data-toggle='tooltip' title='Purple bar represents the item being an antecedent and Green bar represents the item being an consequent'>help</span>";
                 var value_th=upper_row.insertCell(-1);
-                value_th.outerHTML="<th class='th_first' id='header' style='height:6%;'><center>lift <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center></th>";
+                value_th.outerHTML="<th class='th_first' id='header' style='height:8%;'><center> lift <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center></th>";
                 value_th.setAttribute("id","header");
                 value_th.setAttribute("class","th_first");
                 
@@ -1074,48 +1096,54 @@ i{
                 var exp=[];
                 
                 $.each(vav, function(index, element) {
-                inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                // inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                inte.push(element.normalized_lift)
+                
+               
+                // element.normalized_lift=((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1)).toFixed(3);
                 // inte.push(element.lift);
                 //exp.push(1-Math.exp(-element.conviction))
-                if(element.lift==Infinity){
+                if(element.normalized_lift==Infinity){
                     exp.push(0)
                 }
                 else{
+                    exp.push(element.normalized_lift)
                     // console.log(element)
                     // console.log((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
-                    exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    // exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
                 }
                 });
-
-                $.each(vav, function(index, element) {
-                // inte.push(element.lift);
-                inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
-                //exp.push(1-Math.exp(-element.conviction))
-                if(element.lift==Infinity){
-                    exp.push(0)
-                }
-                else{
-                    exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
-                    // exp.push(element.lift)
-                }
-                });
-
-                var x = d3.scale.linear()
-                            .range([0, 10])
-                            .domain([0, d3.max(exp)]);
                 
-                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","40");
+
+                // $.each(vav, function(index, element) {
+                // // inte.push(element.lift);
+                // inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
+                // //exp.push(1-Math.exp(-element.conviction))
+                // if(element.lift==Infinity){
+                //     exp.push(0)
+                // }
+                // else{
+                //     exp.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                //     // exp.push(element.lift)
+                // }
+                // });
+
+                // var x = d3.scale.linear()
+                //             .range([0, 10])
+                //             .domain([0, d3.max(exp)]);
+                
+                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","60");
                 histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
-                    return 28-(x(exp[i]))*2;
+                    return 28-(exp[i])*2;
                 }
                 ).attr("width","17").attr("height",function(d,i){
-                    return 30+x(exp[i])*2;
+                    return 30+(exp[i])*2;
                 })
                 histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","10px").attr("x","0").attr("y",function(d,i){
                     if(inte[i]=="Infinity"){
                         return "30"
                     }else{
-                    return 28-(x(exp[i])*2+1);}
+                    return 28-((exp[i]*2)+1);}
                 }).text(function(d,i){
                     if(inte[i]!=0){
                     if(inte[i]=="Infinity"){
@@ -1134,42 +1162,53 @@ i{
                     if(inte[i]=="Infinity"){
                         return "4"
                     } }})
-            }
+            
 
 
-            d3.select("#selectButton2").on("change", function(d) {
+            d3.select("#selectButton3").on("change", function(d) {
                 var selected_value=d3.select(this).property("value")
                 $(".histo_top").empty();
 
                 var inte=[];
                 var exp=[];
                 if(selected_value=="lift" || selected_value=="conviction"){
+                    // console.log(data_for_hist)
+                    
                 $.each(vav, function(index, element) {
-                inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+                
                 // inte.push(element.lift);
+                // console.log(element)
+                inte.push(element[selected_value]);
+
+
                 //exp.push(1-Math.exp(-element.conviction))
-                if(element[selected_value]==Infinity){
+                // console.log((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                if(element["normalized_"+selected_value]==Infinity){
                     exp.push(0)
                 }
                 else{
                     // console.log(element)
                     // console.log((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
-                    exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    // exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                    exp.push(element["normalized_"+selected_value])
                 }
                 });
 
-                $.each(vav, function(index, element) {
-                // inte.push(element.lift);
-                inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
-                //exp.push(1-Math.exp(-element.conviction))
-                if(element[selected_value]==Infinity){
-                    exp.push(0)
-                }
-                else{
-                    exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
-                    // exp.push(element.lift)
-                }
-                });}
+                // $.each(vav, function(index, element) {
+                // // inte.push(element.lift);
+                // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
+                // //exp.push(1-Math.exp(-element.conviction))
+                // if(element[selected_value]==Infinity){
+                //     exp.push(0)
+                // }
+                // else{
+                //     exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                //     // exp.push(element.lift)
+                // }
+                // });
+
+            }
                 else{
                     
                 $.each(vav, function(index, element) {
@@ -1187,37 +1226,40 @@ i{
                 // }
                 });
 
-                $.each(vav, function(index, element) {
-                inte.push(element[selected_value]);
-                // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
-                //exp.push(1-Math.exp(-element.conviction))
-                // if(element.lift==Infinity){
-                //     exp.push(0)
-                // }
-                // else{
-                    // exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
-                    exp.push(element[selected_value])
-                // }
-                });
-
-                }
-
-                var x = d3.scale.linear()
-                            .range([0, 10])
-                            .domain([0, d3.max(exp)]);
+                // $.each(vav, function(index, element) {
+                // inte.push(element[selected_value]);
+                // // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));     
+                // //exp.push(1-Math.exp(-element.conviction))
+                // // if(element.lift==Infinity){
+                // //     exp.push(0)
+                // // }
+                // // else{
+                //     // exp.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1))
+                //     exp.push(element[selected_value])
+                // // }
+                // });
                 
-                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","40");
+                }
+        
+                
+                // var x = d3.scale.linear()
+                //             .range([0, 10])
+                //             .domain([0, d3.max(exp)]);
+               
+                // for(var i=0;i<exp.length;i++){console.log((exp[i]))}
+               
+                var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","60");
                 histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
-                    return 28-(x(exp[i]))*2;
+                    return 28-((exp[i]))*2;
                 }
                 ).attr("width","17").attr("height",function(d,i){
-                    return 30+x(exp[i])*2;
+                    return 30+(exp[i])*2;
                 })
                 histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","10px").attr("x","0").attr("y",function(d,i){
                     if(inte[i]=="Infinity"){
                         return "30"
                     }else{
-                    return 28-(x(exp[i])*2+1);}
+                    return 28-((exp[i])*2+1);}
                 }).text(function(d,i){
                     if(inte[i]!=0){
                     if(inte[i]=="Infinity"){
@@ -1236,12 +1278,12 @@ i{
                     if(inte[i]=="Infinity"){
                         return "4"
                     } }})
-                    document.getElementById("header").innerHTML = "<center>"+selected_value+"<span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>";
+                    document.getElementById("header").innerHTML = "<center> "+selected_value+" <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>";
                     // document.getElementsByClassName("th_first").innerHTML="<center> <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>";
                     // <center>LIFT <span class='material-icons' style='position:relative; top:5px'>arrow_right_alt</span></center>
 
                 });
-
+            }
 
             function csv(result){
                 var csv_name = prompt('Name of the csv?');
@@ -1344,110 +1386,160 @@ i{
                 }
                 
                 });
-                
+                // console.log(vav)
                 var ls=[];
                 function graph(tx, ty){
-                // console.log(tx, ty)
-                
-                    if(tx.length==0){document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML=''}
+                    // console.log(ty)
+                    // const dx = Array.from(tx);
+                    // const dy = Array.from(ty);
+                        // var dx=tx.slice();
+                        // var dy=ty.slice();
+                        if(tx.length==0){document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML=''}
                     else{
-                    // document.getElementById("group").style.opacity=1;
+                    // console.log(ty)
+          
                     document.getElementById("myDiv").style.opacity = 1;
-                //     ls= $('.grp:checked').map(function(){return this.value}).get()
-                //     $(document).off('change','.grp').on('change', '.grp', function() {
-                //     graph(tx,ty)
-                // });
-                ls=Object.keys(ty[0])
-                var data_for_graph=[];
-                for (var i=0; i<ls.length; i++){
-                var dy=[]; 
-                for(var j=0; j<ty.length; j++){dy.push(ty[j][ls[i]])}
-                // var normal = d3.scale.linear()
-                //                 .range([0, 1])
-                //                 .domain([d3.min(dy), d3.max(dy)]);
-                // console.log(normal)
-                // var x_data= [];
+          
+                var data=[];
+                // for(var i=0; i<tx.length;i++){
+                // // ty[i]["support"].forEach(element => element+0.5);
                 
-                // for(var j=0; j<dy.length; j++){
-                //     x_data.push(normal(dy[j]))
+                
+                // // delete ty[i].lift;
+                // // delete ty[i].leverage;
+                // delete ty[i].conviction;
+                // delete ty[i].normalized_conviction
+                // console.log(ty[i])
                 // }
-                // console.log(x_data)
-                // console.log(d3.max(dy), d3.min(dy))
 
-                var dic={
-                    x:tx,
-                    y:dy,
-                    text:dy,
-                    name:ls[i],
-                    type: 'bar',
-                    hovertemplate: "%{text}"
+                // inte.push((element.lift-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
+
+                layout = {
+                polar: {
+                    radialaxis: {
+                    visible: true,
+                    range: [0, 1],
+                    showticklabels: false,
+                    showline: false
+                    },
+                //     showticklabels:false,
+                // showline:false
+                },width: 1500,
+                showticklabels:false,
+                showline:false
+                }
+                var data_for_graph=[];
+                for(var i=0; i<tx.length; i++){
+                    var data_n=[];
+                    var data_v=[];
+                    data_n.push(ty[i]["normalized_support"]);
+                    data_v.push(ty[i]["support"]);
+                    data_n.push(ty[i]["normalized_antecedent support"]);
+                    data_v.push(ty[i]["antecedent support"]);
+                    data_n.push(ty[i]["normalized_consequent support"]);
+                    data_v.push(ty[i]["consequent support"]);
+                    data_n.push(ty[i]["normalized_confidence"]);
+                    data_v.push(ty[i]["confidence"]);
+                    data_n.push(ty[i]["normalized_lift"]);
+                    data_v.push(ty[i]["lift"]);
+                    // data_n.push(ty[i]["normalized_conviction"]);
+                    // data_v.push(ty[i]["conviction"]);
+                   
+
+
+
+                    // ty[i]["antecedent support"]=ty[i]["antecedent support"]+0.5;
+                    // ty[i]["consequent support"]=ty[i]["consequent support"]+0.5;
+                    var dic={
+                        type: 'scatterpolar',
+                        // r: Object.values(ty[i]),
+                        r: data_n,
+                        // theta:data_n,
+                        theta: ["support","antecedent support","consequent support", "confidence","lift","conviction"],
+                        fill: 'toself',
+                        name: tx[i],
+                        text:data_v,
+                        // text: Object.values(ty[i]),
+                        hovertemplate: "%{text}"    
+                    // x:tx,
+                    // y:dy,
+                    // text:dy,
+                    // name:ls[i],
+                    // type: 'bar',
+                    // hovertemplate: "%{text}"
                 };
                 data_for_graph.push(dic);
-                }
-
-                var layout = {barmode: 'group', font: {
-                size: 15}, width: 1500, xaxis:{automargin:true}};
+                
                 
 
-                width_to_break = 20;
-                wrap = function(elements) {
-                    for (element of elements) {
-                        element.x = element.x.map(text => {
-                            let rxp = new RegExp(".{1," + width_to_break + "}", "g");
-                            return text.match(rxp).join("-<br>");
-                        });
-                    }
-                    return elements;
-                };
-                for (element of data_for_graph){
-                    function normalize(min, max) {
-                        const variation = (3 - 1) / (max - min);
-                        // var delta = max - min;
-                        return function (val) {
-                            if(min==max){
-                                return 2
-                            }
-                            value = (1 + ((val - min) * variation)).toFixed(3)
-                            return value
-                        };
-                    }
-                    function no(){
-                        return function (val){
-                            return val+1
-                        }
-                    }
-                    if(element.y.length!=1){
-                   element.y=element.y.map(normalize(d3.min(element.y), d3.max(element.y)))}
-                   else{
-                    element.y=element.y.map(no())
-                   }
+                
+                //     if(tx.length==0){document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML=''}
+                //     else{
+          
+                //     document.getElementById("myDiv").style.opacity = 1;
+          
+                // ls=Object.keys(ty[0])
+                // var data_for_graph=[];
+                // for (var i=0; i<ls.length; i++){
+                // var dy=[]; 
+                // for(var j=0; j<ty.length; j++){dy.push(ty[j][ls[i]])}
+              
 
-                }
-                console.log(data_for_graph)
-                var data_1 = wrap(data_for_graph);
-                Plotly.newPlot('myDiv', data_1, layout);}}
-                //Plotly.newPlot('myDiv', data_for_graph, layout);}}
-                    
-                    // var data_for_graph=[];
-                    // var dy=[]; 
-                    // for (var i=0; i<ty.length; i++){
-                    // dy.push(ty[i][ls])}
-                    // }
-                    // var dic={
-                    //     x:tx,
-                    //     y:dy,
-                    //     name:ls[i],
-                    //     type: 'bar',
-                    //     marker: {
-                    //         color: 'rgb(142,124,195)'
-                    //     }
-                    // };
-                    // data_for_graph.push(dic);
-                    
-                    // var layout = {barmode: 'group', font: {
-                    // size: 10}, xaxis:{automargin:true}};
-                    
-                    // Plotly.newPlot('myDiv', data_for_graph, layout);}
+                // var dic={
+                //     x:tx,
+                //     y:dy,
+                //     text:dy,
+                //     name:ls[i],
+                //     type: 'bar',
+                //     hovertemplate: "%{text}"
+                // };
+                // data_for_graph.push(dic);
+                // }
+
+                // var layout = {barmode: 'group', font: {
+                // size: 15}, width: 1500, xaxis:{automargin:true}};
+                
+
+                // width_to_break = 20;
+                // wrap = function(elements) {
+                //     for (element of elements) {
+                //         element.x = element.x.map(text => {
+                //             let rxp = new RegExp(".{1," + width_to_break + "}", "g");
+                //             return text.match(rxp).join("-<br>");
+                //         });
+                //     }
+                //     return elements;
+                // };
+                // for (element of data_for_graph){
+                //     function normalize(min, max) {
+                //         const variation = (1 - 0) / (max - min);
+                //         // var delta = max - min;
+                //         return function (val) {
+                //             if(min==max){
+                //                 return 2
+                //             }
+                //             value = (1 + ((val - min) * variation)).toFixed(3)
+                //             return value
+                //         };
+                //     }
+                //     function no(){
+                //         return function (val){
+                //             return val+1
+                //         }
+                //     }
+                //     if(element.r.length!=1){
+                //    element.r=element.r.map(normalize(d3.min(element.r), d3.max(element.r)))}
+                //    else{
+                //     element.r=element.r.map(no())
+                //    }
+
+                // }
+                Plotly.newPlot("myDiv", data_for_graph, layout)}
+                // console.log(data_for_graph)
+                // var data_1 = wrap(data_for_graph);
+                // Plotly.newPlot('myDiv', data_1, layout);}
+            }};
+               
                 
                     
                     var myStorage = window.localStorage;
@@ -1570,7 +1662,8 @@ i{
                                             da=callback["result"]["one_measure"]
                                             vav=callback["result"]["measures"]
                                             // console.log(graphData,da,vav)
-                                            document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;document.getElementById("myDiv").innerHTML='';
+                                            // document.getElementById("myDiv").style.opacity = 0; document.getElementById("group").style.opacity=0;
+                                            // document.getElementById("myDiv").innerHTML='';
                                             generate(headerArray, graphData, da, vav);
                                             }
                                         });
