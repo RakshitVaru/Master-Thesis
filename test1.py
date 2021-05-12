@@ -124,6 +124,25 @@ def market_basket(thre_sup, thre_conf):
 
     inter2="consequent support"
     support= rules_fp[inter2].tolist()
+    norm_lift,norm_conviction=[],[]
+    for i in range(len(rules_fp["lift"])):
+        # norm_lift.append((rules_fp["lift"][i]-1)/((1/max(rules_fp["antecedent support"][i], rules_fp['consequent support'][i]))-1))
+        norm_lift.append((rules_fp["lift"][i]-(max(rules_fp["antecedent support"][i]+rules_fp["consequent support"][i]-1, 1/len(rules_fp))))/((1/max(rules_fp["antecedent support"][i], rules_fp['consequent support'][i]))-(max(rules_fp["antecedent support"][i]+rules_fp["consequent support"][i]-1, 1/len(rules_fp)))))
+        norm_conviction.append((rules_fp["conviction"][i]-1)/((1/max(rules_fp["antecedent support"][i], rules_fp['consequent support'][i]))-1))    
+    normalized_conviction = [float(i)/max(norm_conviction) for i in norm_conviction]
+    normalized_lift=[float(i)/max(norm_lift) for i in norm_lift]
+    normalized_support = [float(i)/max(rules_fp["support"]) for i in rules_fp["support"]]
+    normalized_antesupport = [float(i)/max(rules_fp["antecedent support"]) for i in rules_fp["antecedent support"]]
+    normalized_consesupport = [float(i)/max(rules_fp["consequent support"]) for i in rules_fp["consequent support"]]
+    rules_fp["normalized_lift"]=normalized_lift 
+    rules_fp["lift"]= rules_fp["normalized_lift"]
+    rules_fp["normalized_conviction"]=normalized_conviction
+    rules_fp["normalized_support"]=normalized_support
+    rules_fp["normalized_antecedent support"]=normalized_antesupport
+    rules_fp["normalized_consequent support"]=normalized_consesupport
+    rules_fp["normalized_confidence"]=rules_fp["confidence"]
+    name.remove("leverage")
+    name.remove("conviction")
     rules_fp.iloc[:,2:]=rules_fp.iloc[:,2:].round(3)
     return test,row,support, name[2:], rules_fp.iloc[:,2:].to_dict('records'), thre_sup, thre_conf
 
@@ -136,7 +155,7 @@ def heart_as(thre_sup, thre_conf):
     sup=thre_sup
     conf=thre_conf
     
-    df= pd.read_csv("heart1.csv")
+    df= pd.read_csv("heart2.csv")
     df=df.iloc[:, 1:]
     frequent_itemsets_fp=fpgrowth(df, min_support=float(sup), use_colnames=True)
     rules_fp = association_rules(frequent_itemsets_fp, metric="confidence", min_threshold=float(conf))
@@ -175,6 +194,25 @@ def heart_as(thre_sup, thre_conf):
   
     inter2="consequent support"
     support= rules_fp[inter2].tolist()
+
+    norm_lift,norm_conviction=[],[]
+    for i in range(len(rules_fp["lift"])):
+        norm_lift.append((rules_fp["lift"][i]-(max(rules_fp["antecedent support"][i]+rules_fp["consequent support"][i]-1, 1/len(rules_fp))))/((1/max(rules_fp["antecedent support"][i], rules_fp['consequent support'][i]))-(max(rules_fp["antecedent support"][i]+rules_fp["consequent support"][i]-1, 1/len(rules_fp)))))
+        norm_conviction.append((rules_fp["conviction"][i]-1)/((1/max(rules_fp["antecedent support"][i], rules_fp['consequent support'][i]))-1))    
+    normalized_conviction = [float(i)/max(norm_conviction) for i in norm_conviction]
+    normalized_lift=[float(i)/max(norm_lift) for i in norm_lift]
+    normalized_support = [float(i)/max(rules_fp["support"]) for i in rules_fp["support"]]
+    normalized_antesupport = [float(i)/max(rules_fp["antecedent support"]) for i in rules_fp["antecedent support"]]
+    normalized_consesupport = [float(i)/max(rules_fp["consequent support"]) for i in rules_fp["consequent support"]]
+    rules_fp["normalized_lift"]=normalized_lift 
+    rules_fp["lift"]= rules_fp["normalized_lift"]  
+    rules_fp["normalized_conviction"]=normalized_conviction
+    rules_fp["normalized_support"]=normalized_support
+    rules_fp["normalized_antecedent support"]=normalized_antesupport
+    rules_fp["normalized_consequent support"]=normalized_consesupport
+    rules_fp["normalized_confidence"]=rules_fp["confidence"]
+    name.remove("leverage")
+    name.remove("conviction")
     rules_fp.iloc[:,2:]=rules_fp.iloc[:,2:].round(3)
     return test,row,support, name[2:], rules_fp.iloc[:,2:].to_dict('records'), thre_sup, thre_conf
 
