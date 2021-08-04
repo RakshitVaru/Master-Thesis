@@ -1134,10 +1134,10 @@ i{
                 
                 var histogram=d3.selectAll("#histo").append("svg").attr("width","17").attr("height","60");
                 histogram.append("rect").style("fill","grey").attr("x","0").attr("y",function(d,i){
-                    return 28-(exp[i])*2;
+                    return 28-(exp[i]);
                 }
                 ).attr("width","17").attr("height",function(d,i){
-                    return 30+(exp[i])*2;
+                    return 30+(exp[i]);
                 })
                 histogram.append("text").style("color","green").style("font-weight","bolder").style("font-size","10px").attr("x","0").attr("y",function(d,i){
                     if(inte[i]=="Infinity"){
@@ -1178,7 +1178,7 @@ i{
                 // inte.push((element[selected_value]-1)/((1/Math.max(element['antecedent support'], element['consequent support']))-1));    
                 
                 // inte.push(element.lift);
-                // console.log(element)
+                // console.log(element[selected_value]);
                 inte.push(element[selected_value]);
 
 
@@ -1440,8 +1440,10 @@ i{
                     data_v.push(ty[i]["consequent support"]);
                     data_n.push(ty[i]["normalized_confidence"]);
                     data_v.push(ty[i]["confidence"]);
-                    data_n.push(ty[i]["normalized_lift"]);
+                    data_n.push(ty[i]["normalized_lift"]); 
                     data_v.push(ty[i]["lift"]);
+                    data_n.push(ty[i]["normalized_support"]);
+                    data_v.push(ty[i]["support"]);
                     // data_n.push(ty[i]["normalized_conviction"]);
                     // data_v.push(ty[i]["conviction"]);
                    
@@ -1455,8 +1457,8 @@ i{
                         // r: Object.values(ty[i]),
                         r: data_n,
                         // theta:data_n,
-                        theta: ["support","antecedent support","consequent support", "confidence","lift","conviction"],
-                        fill: 'toself',
+                        theta: ["support","antecedent support","consequent support", "confidence","lift","support"],
+                        // fill: 'toself',
                         name: tx[i],
                         text:data_v,
                         // text: Object.values(ty[i]),
